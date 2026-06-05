@@ -1,3 +1,7 @@
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 resource "aws_vpc" "main" {
   cidr_block           = var.vpc_cidr
   enable_dns_support   = true
@@ -22,7 +26,7 @@ resource "aws_subnet" "public_1" {
 
   cidr_block = var.public_subnet_1_cidr
 
-  availability_zone = "ap-south-1a"
+  availability_zone = data.aws_availability_zones.available.names[0]
 
   map_public_ip_on_launch = true
 
@@ -39,7 +43,7 @@ resource "aws_subnet" "public_2" {
 
   cidr_block = var.public_subnet_2_cidr
 
-  availability_zone = "ap-south-1b"
+  availability_zone = data.aws_availability_zones.available.names[1]
 
   map_public_ip_on_launch = true
 
@@ -56,7 +60,7 @@ resource "aws_subnet" "private_1" {
 
   cidr_block = var.private_subnet_1_cidr
 
-  availability_zone = "ap-south-1a"
+  availability_zone = data.aws_availability_zones.available.names[0]
 
   tags = {
     Name = "${var.environment}-private-1"
@@ -71,7 +75,7 @@ resource "aws_subnet" "private_2" {
 
   cidr_block = var.private_subnet_2_cidr
 
-  availability_zone = "ap-south-1b"
+  availability_zone = data.aws_availability_zones.available.names[1]
 
   tags = {
     Name = "${var.environment}-private-2"
