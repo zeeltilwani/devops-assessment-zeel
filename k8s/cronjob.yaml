@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+
+kind: CronJob
+
+metadata:
+  name: api-health-check
+
+spec:
+  schedule: "*/5 * * * *"
+
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: curl
+
+            image: curlimages/curl
+
+            args:
+            - /bin/sh
+            - -c
+            - curl http://backend-service:5000/health
+
+          restartPolicy: OnFailure
