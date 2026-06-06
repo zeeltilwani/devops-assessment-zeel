@@ -1,5 +1,4 @@
 apiVersion: batch/v1
-
 kind: CronJob
 
 metadata:
@@ -14,10 +13,9 @@ spec:
         spec:
           containers:
           - name: curl
-
             image: curlimages/curl
 
-            args:
+            command:
             - /bin/sh
             - -c
             - curl http://backend-service:5000/health
